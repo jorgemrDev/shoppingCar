@@ -5,7 +5,7 @@ import Loading from "../Loading";
 import { BASE_PATH } from "../../utils/constants";
 
 export default function Product(props) {
-  const { product } = props;
+  const { product, addProductToCart } = props;
 
   return (
     <Col xs={3} className="product">
@@ -18,7 +18,9 @@ export default function Product(props) {
           <Card.Title>{product.name}</Card.Title>
           <Card.Text>{product.extraInfo}</Card.Text>
           <Card.Text>{product.price}00 $/ Unidad</Card.Text>
-          <Button>Añadir al Carrito</Button>
+          <Button onClick={() => addProductToCart(product.id, product.name)}>
+            Añadir al Carrito
+          </Button>
         </Card.Body>
       </Card>
     </Col>
