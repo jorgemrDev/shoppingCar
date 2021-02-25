@@ -28,12 +28,17 @@ function App() {
     idProductsCar.push(id);
     setProductCar(idProductsCar);
     localStorage.setItem(STORAGE_PRODUCTS_CAR, productCar);
+    getProductsCar();
     toast.success(`${name} añadido al carrito correctamente.`);
   };
 
   return (
     <div className="App">
-      <TopMenu></TopMenu>
+      <TopMenu
+        productsCar={productCar}
+        getProductsCar={getProductsCar}
+        products={products}
+      ></TopMenu>
       <Products products={products} addProductToCart={addProductToCart} />
       <ToastContainer
         position="bottom-left"
