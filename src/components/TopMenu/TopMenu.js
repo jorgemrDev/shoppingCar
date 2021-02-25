@@ -2,6 +2,7 @@ import React from "react";
 import "./TopMenu.scss";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
+import Car from "../Car";
 
 export default function TopMenu() {
   return (
@@ -9,6 +10,7 @@ export default function TopMenu() {
       <Container>
         <BrandNav></BrandNav>
         <MenuNav></MenuNav>
+        <Car></Car>
       </Container>
     </Navbar>
   );
