@@ -17,11 +17,39 @@ export default function Car(props) {
   const [carOpen, setCarOpen] = useState(false);
   const widthCarContent = carOpen ? 400 : 0;
   const [singleProductsCar, setSingleProducstCar] = useState([]);
+  const [carTotalPrice, setCarTotalPrice] = useState(0);
 
   useEffect(() => {
     const allProductsId = removeArrayDuplicates(productsCar);
     setSingleProducstCar(allProductsId);
   }, [productsCar]);
+
+  useEffect(() => {
+    const productData = [];
+    let totalPrice = 0;
+    const allProductsId = removeArrayDuplicates(productsCar);
+    allProductsId.forEach((productId) => {
+      const quantity = countDuplicateItemArray(productId, productsCar);
+      const productValue = {
+        id: productId,
+        quantity: quantity,
+      };
+      productData.push(productValue);
+    });
+
+    if (!products.loading && products.result) {
+      products.result.forEach((product) => {
+        productData.forEach((item) => {
+          if (product.id == item.id) {
+            const totalValue = product.price * item.quantity;
+            totalPrice = totalPrice + totalValue;
+          }
+        });
+      });
+    }
+
+    setCarTotalPrice(totalPrice);
+  }, [productsCar, products]);
 
   const openCar = () => {
     setCarOpen(true);
@@ -78,7 +106,7 @@ export default function Car(props) {
             ></CardContentProduct>
           ))}
         </div>
-        <CarContentFooter carTotalPrice={1}></CarContentFooter>
+        <CarContentFooter carTotalPrice={carTotalPrice}></CarContentFooter>
       </div>
     </>
   );
