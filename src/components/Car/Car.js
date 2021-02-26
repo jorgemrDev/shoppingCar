@@ -9,6 +9,7 @@ import { BASE_PATH, STORAGE_PRODUCTS_CAR } from "../../utils/constants";
 import {
   removeArrayDuplicates,
   countDuplicateItemArray,
+  removeItemArray,
 } from "../../utils/arrayFunc";
 
 export default function Car(props) {
@@ -37,6 +38,20 @@ export default function Car(props) {
     getProductsCar();
   };
 
+  const increaseQuantity = (id) => {
+    const arrayItems = productsCar;
+    arrayItems.push(id);
+    localStorage.setItem(STORAGE_PRODUCTS_CAR, arrayItems);
+    getProductsCar();
+  };
+
+  const decreaseQuantity = (id) => {
+    const arrayItems = productsCar;
+    const result = removeItemArray(arrayItems, id.toString());
+    localStorage.setItem(STORAGE_PRODUCTS_CAR, result);
+    getProductsCar();
+  };
+
   return (
     <>
       <Button varian="link" className="car">
@@ -58,9 +73,12 @@ export default function Car(props) {
               products={products}
               idProductsCar={productsCar}
               idProductCar={idProductsCar}
+              increaseQuantity={increaseQuantity}
+              decreaseQuantity={decreaseQuantity}
             ></CardContentProduct>
           ))}
         </div>
+        <CarContentFooter carTotalPrice={1}></CarContentFooter>
       </div>
     </>
   );
@@ -88,6 +106,8 @@ function CardContentProduct(props) {
     products: { loading, result },
     idProductsCar,
     idProductCar,
+    increaseQuantity,
+    decreaseQuantity,
   } = props;
 
   if (!loading && result) {
@@ -99,6 +119,8 @@ function CardContentProduct(props) {
             key={index}
             product={product}
             quantity={quantity}
+            increaseQuantity={increaseQuantity}
+            decreaseQuantity={decreaseQuantity}
           ></RenderProduct>
         );
       }
@@ -108,7 +130,7 @@ function CardContentProduct(props) {
 }
 
 function RenderProduct(props) {
-  const { product, quantity } = props;
+  const { product, quantity, increaseQuantity, decreaseQuantity } = props;
 
   return (
     <div className="car-content__product">
@@ -121,11 +143,24 @@ function RenderProduct(props) {
         <div>
           <p>En carrito: {quantity} ud.</p>
           <div>
-            <button>+</button>
-            <button>-</button>
+            <button onClick={() => increaseQuantity(product.id)}>+</button>
+            <button onClick={() => decreaseQuantity(product.id)}>-</button>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function CarContentFooter(props) {
+  const { carTotalPrice } = props;
+  return (
+    <div className="car-content__footer">
+      <div>
+        <p>Total:</p>
+        <p>{carTotalPrice.toFixed(2)}</p>
+      </div>
+      <Button>Confirmar Pedido</Button>
     </div>
   );
 }
