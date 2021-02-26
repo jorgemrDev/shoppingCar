@@ -51,7 +51,7 @@ export default function Car(props) {
           closeCar={closeCar}
           cleanCar={cleanCar}
         ></CardContentHeader>
-        <div className="car-content-products">
+        <div className="car-content__products">
           {singleProductsCar.map((idProductsCar, index) => (
             <CardContentProduct
               key={index}
@@ -114,14 +114,16 @@ function RenderProduct(props) {
     <div className="car-content__product">
       <img src={`${BASE_PATH}/${product.image}`} alt={product.name}></img>
       <div className="car-content__product-info">
-        <h3>{product.name.substr(0, 25)}</h3>
-        <p>{product.price.toFixed(2)} / Unidad</p>
-      </div>
-      <div>
-        <p>En carrito: {quantity} ud.</p>
         <div>
-          <Button>+</Button>
-          <Button>-</Button>
+          <h3>{product.name.substr(0, 25)}...</h3>
+          <p>{product.price.toFixed(2)} / Unidad</p>
+        </div>
+        <div>
+          <p>En carrito: {quantity} ud.</p>
+          <div>
+            <button>+</button>
+            <button>-</button>
+          </div>
         </div>
       </div>
     </div>
